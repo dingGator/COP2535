@@ -1,41 +1,35 @@
 //Kim Lien Chu
 //COP2535.0M1
 
+
 #include <iostream>
+#include <sstream>
+#include <stack>
 #include <string>
-#include <iomanip>
-#include<cstring>
-#include<cstdlib>
-#include <vector>
-#include <fstream>
 
 #include "DisplayRep.h"
 
 using namespace std;
 /*******************************************
-class GetInFile
-1.  Use the file minmax.txt to populate the vectors.
-a.  The file will contain 5 integer values
-followed by five string values.
-2.  Vectors are populated with file data
+displayRep
+Input						Output
+78							78
+78 6 +						84
+78 6 + 9 2 - /				12			(78 + 6) / (9 - 2)
 *******************************************/
+
 void DisplayRep::displayHeader()
 {
 	cout << "\n        ************************************" << endl;
-	cout << "\n         Maximum and Minimum Values Report       " << endl;
+	cout << "\n                        Postfix             " << endl;
 	cout << "\n        ************************************" << endl << endl;
+	cout << "\n        Input						Output " << endl << endl;
 }
-void DisplayRep::displayMaxMin(double smallestDoub,
-	double largestDoub,
-	string smallestStr,
-	string largestStr)
-
+/*
+void DisplayRep::displayPostfix(string outRep)
 
 {
-	cout << "\n        maximum number in file:   " << largestDoub << endl;
-	cout << "\n        mininum number in file:   " << smallestDoub << endl;
-	cout << "\n        maximum string in file:   " << largestStr << endl;
-	cout << "\n        mininum string in file:   " << smallestStr << endl;
-
+	cout << "\n        "<<outRep << outRep << endl;
 	cout << "\n\n            *******************" << endl << endl;
 }
+*/

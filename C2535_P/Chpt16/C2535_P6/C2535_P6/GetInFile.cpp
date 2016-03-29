@@ -4,36 +4,27 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#include<cstring>
-#include<cstdlib>
-#include <vector>
+#include <sstream>
 #include <fstream>
-#include "DisplayRep.h"
 #include "GetInFile.h"
-//#include "SimpleVector.h"
-
+#include <stack>
+#include <cstring>
+#include <cstdlib>
 using namespace std;
 /*******************************************
 class GetInFile
-1.  Use the file minmax.txt to populate the vectors.
-a.  The file will contain 5 integer values
-followed by five string values.
-2.  Vectors are populated with file data
 *******************************************/
-
-void GetInFile::getInputFile(vector<double> &doubVect, vector<string> &strVect)
+string GetInFile::getInputFile()
 {
 
-	string valStr;
-	//double valDoub;
-	//char ch;
 	string line;
-
+	string repString;
 	ifstream inFile;
+	int calcNum;
+	
+	//  Use the file postfix.txt to .
 
-	//  Use the file minmax.txt to populate the vectors.
-
-	inFile.open("minmax.txt");
+	inFile.open("postfix.txt");
 	if (!inFile)
 	{
 		cout << "\n Error opening data file.\n";
@@ -42,28 +33,77 @@ void GetInFile::getInputFile(vector<double> &doubVect, vector<string> &strVect)
 	{
 		while (getline(inFile, line))
 		{  /******************************************
-		   Check to see if the data is number or alpha
-		   Vectors are populated with file data
 		   ********************************************/
-			if (isdigit(line.at(0)) || line.at(0) == '-')
-			{
-				double valDoub = atof(line.c_str());
-
-				//vector: double populated
-				doubVect.push_back(valDoub);
-			}
-			else
-			{
-				valStr = line;
-
-				//vector: string populated
-				strVect.push_back(valStr);
-			}
+			//convert string to string stream
+			istringstream inputExpr(line);
+			repString= postfixExpr(inputExpr);
+			calcNum = calcExpr(repString);
+			cout << "\n        " << line << setw(50)<< calcNum << "     "<<setw(10) << repString << endl;
 
 		}
+		
 		inFile.close();
+	
 	}
-
+	return repString;
+	
 }
 
+
+string GetInFile::postfixExpr(istream & in)
+{
+	stack<string> infixStack;
+	char ch;
+	int number;
+	string lExpr;
+	string rExpr;
+	ch = in.peek();
+	while (ch != EOF)
+	{
+		if (isspace(ch))
+		{
+			ch = in.get();
+			ch = in.peek();
+			continue;
+		}
+	
+		if (isdigit(ch))
+		{
+			in >> number;
+			ostringstream numberStr;
+			numberStr << number;
+			cout << "number  " << number << endl;
+			infixStack.push(numberStr.str());
+			ch = in.peek();
+			continue;
+		}
+
+		rExpr = infixStack.top();
+		infixStack.pop();
+		lExpr = infixStack.top();
+		infixStack.pop();
+
+		if (ch == '+' ||
+			ch == '-' ||
+			ch == '*' ||
+			ch == '/')
+		{
+			infixStack.push("(" +lExpr + " " + ch + " " + rExpr+")" );
+			cout << "  lExpr  " << lExpr << endl;
+			cout << "  rExpr  " << rExpr << endl;
+		}
+		ch = in.get();
+		ch = in.peek();
+	}
+return infixStack.top();
+}
+int GetInFile::calcExpr(string repString)
+{
+	int calcNum1;
+	calcNum1 = atol(repString);
+	return calcNum1;
+}
+
+
+;
 
