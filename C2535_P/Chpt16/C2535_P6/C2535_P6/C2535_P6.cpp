@@ -3,19 +3,13 @@
 
 /******************************************
 Project 6
-program 
-	uses a single stack
+program
 	read postfix expressions
-	prints their values.
-	Each input expression
-		is on its own line in the postfix.txt file.
-	The output of each expression
-		displayed on the console screen
-	ends when the end of the file is reached.  
-
+	convert to infix expression
+	calculate value of the postfix expression
+Assume
 	Only use binary operators
 	Expression contain no variables
-
 
 *******************************************/
 #include <iostream>
@@ -26,29 +20,18 @@ program
 #include <string>
 
 using namespace std;
-/*******************************************
-
-
-******************************************
-*/
 
 int main()
 {
-	string outString;
-	/******************************************
-	GetInFile
-	Use the file postfix.txt to 
-	******************************************/
-	DisplayRep repDisp;
+	DisplayRep repDisp;  
+	// display what program do
 	repDisp.displayHeader();
-
+/*************************************
+read in postfix file
+		process postfix expression
+		output report as infix expression
+***************************/
 	GetInFile inputFile;
-	outString=inputFile.getInputFile();
-	/****************************
-	********************************/
-	
-	/**************************************
-	****************************/
-//	repDisp.displayPostfix(outString);
+	inputFile.getInputFile();
 	return 0;
 }

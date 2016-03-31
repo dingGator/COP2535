@@ -11,8 +11,8 @@
 using namespace std;
 
 /*******************************************
-class GetInFile
-
+class DisplayRep
+display report header
 * *********************************************************/
 class DisplayRep
 {
@@ -23,7 +23,6 @@ public:
 	DisplayRep(){};     // default constructor
 
 	void displayHeader();
-	void displayPostfix(string);
 	~DisplayRep(){};		// destructor
 
 

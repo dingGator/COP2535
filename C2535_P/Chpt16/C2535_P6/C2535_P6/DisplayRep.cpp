@@ -11,25 +11,23 @@
 
 using namespace std;
 /*******************************************
-displayRep
-Input						Output
-78							78
-78 6 +						84
-78 6 + 9 2 - /				12			(78 + 6) / (9 - 2)
+class DisplayReport
+display report header
 *******************************************/
 
 void DisplayRep::displayHeader()
 {
-	cout << "\n        ************************************" << endl;
-	cout << "\n                        Postfix             " << endl;
-	cout << "\n        ************************************" << endl << endl;
-	cout << "\n        Input	\t\t\t Output " << endl << endl;
+	cout << "\n        *********************************************************** " << endl;
+	cout << "\n        This program produces a report of the Postfix.txt file      " << endl;
+	cout << "\n           The report will have:                                    " << endl;
+	cout << "\n                        the original input                          " << endl;
+	cout << "\n                        the calculated value of the input           " << endl;
+	cout << "\n                        the postfix expression of the input         " << endl;
+	cout << "\n        ************************************************************" << endl << endl;
+	cout << endl;
+	cout << "\n                 Postfix Expressions Report                         " << endl;
+	cout << endl;
+	cout << "\n        ************************************************************" << endl << endl;
+	cout << endl;
+	cout << "\n        Input	                     Output                        " << endl << endl;
 }
-/*
-void DisplayRep::displayPostfix(string outRep)
-
-{
-	cout << "\n        "<<outRep << outRep << endl;
-	cout << "\n\n            *******************" << endl << endl;
-}
-*/
