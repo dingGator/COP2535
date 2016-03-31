@@ -23,7 +23,7 @@ void DisplayRep::displayHeader()
 	cout << "\n        ************************************" << endl;
 	cout << "\n                        Postfix             " << endl;
 	cout << "\n        ************************************" << endl << endl;
-	cout << "\n        Input						Output " << endl << endl;
+	cout << "\n        Input	\t\t\t Output " << endl << endl;
 }
 /*
 void DisplayRep::displayPostfix(string outRep)

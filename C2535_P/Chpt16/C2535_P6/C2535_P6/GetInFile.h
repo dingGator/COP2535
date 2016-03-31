@@ -20,13 +20,20 @@ class GetInFile
 {
 private:
 
-
+	string lExpr;
+	string rExpr;
+	char ch;
+	string stringfix;
+	
 public:
+	int total1;
+	int total2;
+	
 	GetInFile(){};     // default constructor
 
 	string getInputFile();
 	string postfixExpr(istream & inputStream);
-	int calcExpr(string);
+	//int calcExpr();
 	~GetInFile(){};		// destructor
 
 

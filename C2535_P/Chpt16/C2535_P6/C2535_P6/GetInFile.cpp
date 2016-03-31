@@ -16,11 +16,10 @@ class GetInFile
 *******************************************/
 string GetInFile::getInputFile()
 {
-
 	string line;
 	string repString;
 	ifstream inFile;
-	int calcNum;
+	//int calcNum;
 	
 	//  Use the file postfix.txt to .
 
@@ -37,8 +36,8 @@ string GetInFile::getInputFile()
 			//convert string to string stream
 			istringstream inputExpr(line);
 			repString= postfixExpr(inputExpr);
-			calcNum = calcExpr(repString);
-			cout << "\n        " << line << setw(50)<< calcNum << "     "<<setw(10) << repString << endl;
+		//	calcNum = calcExpr();
+			cout << "\n        " << line << " \t\t\t\t    " << repString << endl;
 
 		}
 		
@@ -53,10 +52,8 @@ string GetInFile::getInputFile()
 string GetInFile::postfixExpr(istream & in)
 {
 	stack<string> infixStack;
-	char ch;
+
 	int number;
-	string lExpr;
-	string rExpr;
 	ch = in.peek();
 	while (ch != EOF)
 	{
@@ -66,17 +63,19 @@ string GetInFile::postfixExpr(istream & in)
 			ch = in.peek();
 			continue;
 		}
-	
+
 		if (isdigit(ch))
 		{
 			in >> number;
 			ostringstream numberStr;
 			numberStr << number;
-			cout << "number  " << number << endl;
+			//cout << "number  " << number << endl;
 			infixStack.push(numberStr.str());
 			ch = in.peek();
+
 			continue;
 		}
+
 
 		rExpr = infixStack.top();
 		infixStack.pop();
@@ -88,22 +87,40 @@ string GetInFile::postfixExpr(istream & in)
 			ch == '*' ||
 			ch == '/')
 		{
-			infixStack.push("(" +lExpr + " " + ch + " " + rExpr+")" );
-			cout << "  lExpr  " << lExpr << endl;
-			cout << "  rExpr  " << rExpr << endl;
+
+			infixStack.push("(" + lExpr + " " + ch + " " + rExpr + ")");
+
+
 		}
 		ch = in.get();
 		ch = in.peek();
+
 	}
-return infixStack.top();
-}
-int GetInFile::calcExpr(string repString)
+	stringfix = infixStack.top();
+	//total1 = calcExlpr();
+	return stringfix;
+
+
+};/*
+int GetInFile::calcExpr()
 {
-	int calcNum1;
-	calcNum1 = atol(repString);
-	return calcNum1;
+
+	if (ch == '+')
+	{
+		total1 = atoi(lExpr) + atoi(rExpr);
+	}
+	else if (ch == '-')
+	{
+		total1 = atoi(lExpr) - atoi(rExpr);
+	}
+	else if (ch == '*')
+	{
+		total1 = atoi(lExpr) * atoi(rExpr);
+	}
+	else if (ch == '/')
+	{
+		total1 = atoi(lExpr) / atoi(rExpr);
+	}
+
 }
-
-
-;
-
+*/
