@@ -33,5 +33,6 @@ read in postfix file
 ***************************/
 	GetInFile inputFile;
 	inputFile.getInputFile();
+	cout<<endl;
 	return 0;
 }

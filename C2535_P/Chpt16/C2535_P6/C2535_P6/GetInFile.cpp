@@ -10,6 +10,7 @@
 #include <stack>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 using namespace std;
 /*******************************************
 class GetInFile
@@ -28,15 +29,13 @@ Assume
 *******************************************/
 void GetInFile::getInputFile()
 {
-	string line;
-	string repString;
 	ifstream inFile;
-			
-/************************************
-Use the file: postfix.txt 
+
+	/************************************
+	Use the file: postfix.txt
 	Each input expression
-		is on its own line in the postfix.txt file.
-******************************/
+	is on its own line in the postfix.txt file.
+	******************************/
 	inFile.open("postfix.txt");
 	if (!inFile)
 	{
@@ -45,36 +44,21 @@ Use the file: postfix.txt
 	else
 	{
 		while (getline(inFile, line))
-		{ 
-/******************************************
-		read postfix expressions 
-		and prints their values .	
-Assume
-	Only use binary operators
-	Expression contain no variables
-********************************************/
+		{
+			/******************************************
+					read postfix expressions
+					and prints their values .
+					Assume
+					Only use binary operators
+					Expression contain no variables
+					********************************************/
 			istringstream inputExpr(line);
-			repString = postfixExpr(inputExpr);
-			if (total1 == 0)
-			{
-				cout << "\n         "<<left << setw(30)  <<  line  
-					 << left << setw(30) << repString << endl;
-			}
-			else
-			{	
-				cout << "\n         "<<left << setw(30) << line   
-					 << left << setw(10) <<showpoint<<setprecision(4)<< total1 
-					 << left << setw(30) << repString << endl;
-			}
+			cout << "\n        " << left << setw(30) << line;
+			postfixExpr(inputExpr);
+
 		}
-		cout << endl;
-		cout << endl;
-		
 		inFile.close();
-	
 	}
-	
-	
 }
 /*********************************
 string postfixExpr(istream & in)
@@ -83,7 +67,7 @@ uses a stack to calculate the expression
 *************************************/
 
 
-string GetInFile::postfixExpr(istream & in)
+void GetInFile::postfixExpr(istream & in)
 {
 	/*********************************
 	uses a stack to change 
@@ -91,12 +75,17 @@ string GetInFile::postfixExpr(istream & in)
 		to  infix expression
 	uses a stack to calculate the expression
 	*************************************/
-	stack<string> infixStack;
-	stack<double>calcStack;
-	int number;
+	ostringstream rExpr;
+	ostringstream lExpr;
+
+	//ostringstream numberStr;
+	//string stringfix;
 	ch = in.peek();
+	bool lNum = true;
+
 	while (ch != EOF)
-	{	//evaluate each line of file
+	{	
+		//evaluate each line of file
 		// see if it is a space
 		if (isspace(ch))
 		{
@@ -108,25 +97,23 @@ string GetInFile::postfixExpr(istream & in)
 		if (isdigit(ch))
 		{
 			in >> number;
-			ostringstream numberStr;
-			numberStr << number;
 		
+			
 			calcStack.push(number);
-			infixStack.push(numberStr.str());
+		
 			ch = in.peek();
-
+			
 			continue;
 		}
-
+		
 		rNumber = calcStack.top();
-		calcStack.pop();
-		lNumber = calcStack.top();
+		rExpr << rNumber;
 		calcStack.pop();
 		
-		rExpr = infixStack.top();
-		infixStack.pop();
-		lExpr = infixStack.top();
-		infixStack.pop();
+		lNumber = calcStack.top();
+		lExpr << lNumber;
+		calcStack.pop();
+		
 		// check for binary operator
 		if (ch == '+' ||
 			ch == '-' ||
@@ -134,44 +121,62 @@ string GetInFile::postfixExpr(istream & in)
 			ch == '/')
 		{
 			//store total
-			total1=calcExpr();
+			
+
+			total1 = calcExpr();
+			/*
+			strcat(" (", lExpr.str());
+			strcat(" ", ch.str());
+			strcat(" ", rExpr.str());
+			strcat(" )", " ");
+			*/
+			infix = string(" (") + lExpr.str() + ch + rExpr.str() +string(") ");
 			calcStack.push(total1);
-			// store the string of the expression
-			infixStack.push( "(" + lExpr + " " + ch + " " + rExpr + ")");
-
-
+		
 		}
 		ch = in.get();
 		ch = in.peek();
-		
+	
 	}
 	
-	stringfix = infixStack.top();
-	return stringfix;
+	
+	cout << setprecision(2) << fixed << total1;
+//	cout << "  (" << lExpr.str() << " " << ch << " " << rExpr.str() << ")";
 
+	cout << infix;
 
 };
 double GetInFile::calcExpr()
 {
+
 	/**************************
 	calculate the value of the postfix expression
 	**********************************/
 	if (ch == '+')
 	{
-		total1 = lNumber + rNumber;
+		total1 =(lNumber + rNumber);
 	}
 	else if (ch == '-')
 	{
-		total1 = lNumber - rNumber; 
-	}
+		total1 = (lNumber - rNumber);
+
+			}
 	else if (ch == '*')
 	{
-		total1 = lNumber * rNumber; 
+		total1 = (lNumber * rNumber);
+	
 	}
 	else if (ch == '/')
 	{//This to handle a double from the calculation
-		total1 = lNumber / (rNumber + 0.0); 
+		total1 = lNumber / (rNumber + 0.0);
 	}
 	
 	return total1;
+}
+void GetInFile::infixExpr(string stringfix, double total1,string line )
+{
+	
+		cout << endl;
+
+	
 }

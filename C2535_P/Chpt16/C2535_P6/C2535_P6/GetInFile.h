@@ -8,6 +8,7 @@
 #include <sstream>
 #include <stack>
 #include <string>
+#include <vector>
 
 
 using namespace std;
@@ -30,22 +31,33 @@ class GetInFile
 {
 private:
 
-	string lExpr;
-	string rExpr;
-	char ch;
-	string stringfix;
-	int lNumber;
-	int rNumber;
+
 	
 public:
-	double total1;
+	//stack<string> infixStack;
+	int number;
 
-	
-	GetInFile(){ total1 = 0.0; };     // default constructor
+	string stringfix;
+	//string lExpr;
+	//string rExpr;
+	char ch;
+	char ch1;
+	string infix;
+	string line;
+	string repString;
+//	stack<string> infixStack;
+	stack<double>calcStack;
+
+	double tempTotal;
+	int lNumber;
+	int rNumber;
+	double total1;
+	GetInFile(){};
 
 	void getInputFile();
-	string postfixExpr(istream & inputStream);
+	void postfixExpr(istream & inputStream);
 	double calcExpr();
+	void infixExpr(string, double, string);
 	~GetInFile(){};		// destructor
 
 
