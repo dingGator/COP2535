@@ -34,30 +34,37 @@ private:
 
 	
 public:
-	//stack<string> infixStack;
+	bool lNum;
+	string oper1;
+	string oper2;
+	string newExpr;
+
+	string bBoard;
+	string bBSt;
+	bool bB1Ready;
+	bool bB2Ready;
+
 	int number;
-
-	string stringfix;
-	//string lExpr;
-	//string rExpr;
 	char ch;
-	char ch1;
-	string infix;
 	string line;
-	string repString;
-//	stack<string> infixStack;
-	stack<double>calcStack;
 
+
+	stack<double>calcStack;
 	double tempTotal;
-	int lNumber;
-	int rNumber;
+	double lNumber;
+	double rNumber;
 	double total1;
-	GetInFile(){};
+
+
+	GetInFile();
 
 	void getInputFile();
-	void postfixExpr(istream & inputStream);
+	void postfixExpr(istream & inputstream );
+	void isItDigit(istream &inputstream);
 	double calcExpr();
-	void infixExpr(string, double, string);
+	void digitSave();
+	void createStringDisplay();
+	void getStackNum();
 	~GetInFile(){};		// destructor
 
 

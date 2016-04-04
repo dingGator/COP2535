@@ -11,7 +11,21 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
+#include <stdlib.h>
 using namespace std;
+GetInFile::GetInFile()
+{
+	//infix = "";
+	lNum = true;
+	oper1 ="";
+	oper2 = "";
+	newExpr ="";
+	bBoard = "";
+	bBSt ="";
+	bB1Ready = false;
+	bB2Ready = false;
+
+}
 /*******************************************
 class GetInFile
 	uses a single stack
@@ -55,34 +69,27 @@ void GetInFile::getInputFile()
 			istringstream inputExpr(line);
 			cout << "\n        " << left << setw(30) << line;
 			postfixExpr(inputExpr);
-
+			
 		}
 		inFile.close();
 	}
 }
 /*********************************
-string postfixExpr(istream & in)
-uses a stack to read the expression
-uses a stack to calculate the expression
+postfixExpr
+the file is istream in
+Check till end of file
+	stream in the file into number
+	if space look at next space
+	if digit change the number to a string
+         
+
 *************************************/
 
 
 void GetInFile::postfixExpr(istream & in)
 {
-	/*********************************
-	uses a stack to change 
-		the expression from postfix expressions
-		to  infix expression
-	uses a stack to calculate the expression
-	*************************************/
-	ostringstream rExpr;
-	ostringstream lExpr;
-
-	//ostringstream numberStr;
-	//string stringfix;
 	ch = in.peek();
-	bool lNum = true;
-
+	
 	while (ch != EOF)
 	{	
 		//evaluate each line of file
@@ -93,47 +100,13 @@ void GetInFile::postfixExpr(istream & in)
 			ch = in.peek();
 			continue;
 		}
-		// see if it is a number
 		if (isdigit(ch))
 		{
-			in >> number;
-		
-			
-			calcStack.push(number);
-		
-			ch = in.peek();
-			
+			isItDigit(in);
 			continue;
 		}
+		getStackNum();
 		
-		rNumber = calcStack.top();
-		rExpr << rNumber;
-		calcStack.pop();
-		
-		lNumber = calcStack.top();
-		lExpr << lNumber;
-		calcStack.pop();
-		
-		// check for binary operator
-		if (ch == '+' ||
-			ch == '-' ||
-			ch == '*' ||
-			ch == '/')
-		{
-			//store total
-			
-
-			total1 = calcExpr();
-			/*
-			strcat(" (", lExpr.str());
-			strcat(" ", ch.str());
-			strcat(" ", rExpr.str());
-			strcat(" )", " ");
-			*/
-			infix = string(" (") + lExpr.str() + ch + rExpr.str() +string(") ");
-			calcStack.push(total1);
-		
-		}
 		ch = in.get();
 		ch = in.peek();
 	
@@ -141,11 +114,30 @@ void GetInFile::postfixExpr(istream & in)
 	
 	
 	cout << setprecision(2) << fixed << total1;
-//	cout << "  (" << lExpr.str() << " " << ch << " " << rExpr.str() << ")";
-
-	cout << infix;
+	cout << "  " << bBoard;
+	//initialize variables
+	newExpr = " ";
+	oper1 = " ";
+	oper2 = " ";
+	bB1Ready = false;
+	bB2Ready = false;
 
 };
+/**********************************
+isItDigit()
+process number to see if is a digit
+******************************/
+void GetInFile::isItDigit(istream &in)
+{
+	// see if it is a number
+		in >> number;
+		digitSave();
+		total1 = number;
+		calcStack.push(number);
+		ch = in.peek();
+	
+		
+}
 double GetInFile::calcExpr()
 {
 
@@ -171,12 +163,86 @@ double GetInFile::calcExpr()
 		total1 = lNumber / (rNumber + 0.0);
 	}
 	
-	return total1;
-}
-void GetInFile::infixExpr(string stringfix, double total1,string line )
-{
-	
-		cout << endl;
 
-	
+	return total1;
+}/********************
+
+digitSave
+save of oper1 and oper2
+for string creation
+*****************************/
+void GetInFile::digitSave()
+{
+	ostringstream ossLNumber;
+	ostringstream ossRNumber;
+
+	if (oper1 == " ")
+	{
+		ossLNumber << number;
+		oper1 = ossLNumber.str();
+	}
+	else
+	{
+		ossRNumber << number;
+		oper2 = ossRNumber.str();
+	}
+
+}
+/***********************************
+createStringDisplay()
+create the infix string
+**********************************/
+void GetInFile::createStringDisplay()
+{
+	newExpr = "(" + oper1 + ch + oper2 + ")";
+
+
+
+	if (bB1Ready && bB2Ready)
+	{
+
+		bBoard += ch;
+		bBoard += bBSt;
+	}
+	if (!bB1Ready)
+	{
+		bBoard = newExpr;
+		bB1Ready = true;
+		bB2Ready = false;
+	}
+	else
+	{
+		bBSt = newExpr;
+		bB2Ready = true;
+	}
+
+
+	oper1 = " ";
+	oper2 = " ";
+
+
+}
+/**************************************
+getStackNum()
+get the stack number
+*************************************/
+void GetInFile::getStackNum()
+{
+	rNumber = calcStack.top();
+	calcStack.pop();
+	lNumber = calcStack.top();
+
+	calcStack.pop();
+
+// check for binary operator
+	if (ch == '+' ||
+		ch == '-' ||
+		ch == '*' ||
+		ch == '/')
+	{
+		createStringDisplay();
+		total1 = calcExpr();
+		calcStack.push(total1);
+
+	}
 }
